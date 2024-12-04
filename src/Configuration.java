@@ -1,4 +1,3 @@
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Configuration {
@@ -7,7 +6,7 @@ public class Configuration {
     private int customerRetrievalRate;
     private int maxTicketCapacity;
 
-    private Configuration() {
+    public void loadConfiguration() {
         Scanner scanner = new Scanner(System.in);
 
         while(true) {
