@@ -1,11 +1,7 @@
-import java.util.ArrayList;
-import java.util.List;
-
 public class Vendor implements Runnable {
-    private final int vendorId;
     private final TicketPool ticketPool;
     private final int ticketReleaseRate;
-
+    private final int vendorId;
     private boolean running = true;
 
     public Vendor(TicketPool ticketPool, int vendorId, int ticketReleaseRate) {
@@ -16,24 +12,21 @@ public class Vendor implements Runnable {
 
     @Override
     public void run() {
-        System.out.println("Vendor " + vendorId + " is now running.");
-        while(running) {
+        while (running) {
             try {
-                Thread.sleep(1000);
+                Thread.sleep(1000); // Simulate time delay for adding tickets
 
-                List<String> newTicket = new ArrayList<>();
-                for (int i = 0; i < ticketReleaseRate; i++) {
-                    newTicket.add("Ticket " + (ticketPool.getTickets() + 1));
-                }
-                ticketPool.addTicket(newTicket.toString());
-                System.out.println("Vendor " + vendorId + " added 1 ticket. Total tickets remaining: " + ticketPool.getTickets());
-            }catch(InterruptedException e) {
+                ticketPool.addTicket(vendorId, ticketReleaseRate);
+
+                System.out.println("Vendor " + vendorId + " added " + ticketReleaseRate +
+                        " ticket(s). Total tickets in pool: " + ticketPool.getTickets());
+            } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
                 System.out.println("Vendor " + vendorId + " was interrupted.");
             }
         }
-        System.out.println("Vendor " + vendorId + " has stopped.");
     }
+
     public void stop() {
         running = false;
     }
