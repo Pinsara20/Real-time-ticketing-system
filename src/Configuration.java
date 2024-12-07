@@ -1,84 +1,11 @@
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Configuration {
-    private int totalTickets;
+    private int totalTickets; // Initial tickets in the pool
     private int ticketReleaseRate;
     private int customerRetrievalRate;
     private int maxTicketCapacity;
 
-    private Configuration() {
-        Scanner scanner = new Scanner(System.in);
-
-        while(true) {
-            try {
-                System.out.println("Enter the maximum ticket capacity: ");
-                this.maxTicketCapacity = scanner.nextInt();
-                if (this.maxTicketCapacity <= 0) {
-                    throw new IllegalArgumentException("Invalid input. Please enter a positive integer.");
-                }
-                break;
-            }catch(NumberFormatException e) {
-                System.out.println("Invalid input. Please enter a positive integer.");
-                scanner.next();
-            }
-        }
-        while(true) {
-            try {
-                System.out.println("Enter the total number of tickets: ");
-                this.totalTickets = scanner.nextInt();
-                if (this.totalTickets <= 0) {
-                    throw new IllegalArgumentException("Invalid input. Please enter a positive integer.");
-                }
-                break;
-            }catch(NumberFormatException e) {
-                System.out.println("Invalid input. Please enter a positive integer.");
-                scanner.next();
-            }
-        }
-        while(true) {
-            try {
-                System.out.println("Enter the ticket release rate: ");
-                this.ticketReleaseRate = scanner.nextInt();
-                if (this.ticketReleaseRate <= 0) {
-                    throw new IllegalArgumentException("Invalid input. Please enter a positive integer.");
-                }
-                break;
-            }catch(NumberFormatException e) {
-                System.out.println("Invalid input. Please enter a positive integer.");
-                scanner.next();
-            }
-        }
-        while(true) {
-            try {
-                System.out.println("Enter the customer retrieval rate: ");
-                this.customerRetrievalRate = scanner.nextInt();
-                if (this.customerRetrievalRate <= 0) {
-                    throw new IllegalArgumentException("Invalid input. Please enter a positive integer.");
-                }
-                break;
-            }catch(NumberFormatException e) {
-                System.out.println("Invalid input. Please enter a positive integer.");
-                scanner.next();
-            }
-        }
-    }
-
-    public void setTotalTickets(int totalTickets) {
-        this.totalTickets = totalTickets;
-    }
-
-    public void setTicketReleaseRate(int ticketReleaseRate) {
-        this.ticketReleaseRate = ticketReleaseRate;
-    }
-
-    public void setCustomerRetrievalRate(int customerRetrievalRate) {
-        this.customerRetrievalRate = customerRetrievalRate;
-    }
-
-    public void setMaxTicketCapacity(int maxTicketCapacity) {
-        this.maxTicketCapacity = maxTicketCapacity;
-    }
     public int getTotalTickets() {
         return totalTickets;
     }
@@ -95,6 +22,70 @@ public class Configuration {
         return maxTicketCapacity;
     }
 
+    public void loadConfiguration() {
+        Scanner scanner = new Scanner(System.in);
+
+        // Get the initial tickets count
+        while (true) {
+            try {
+                System.out.println("Enter the initial total number of tickets in the pool: ");
+                this.totalTickets = scanner.nextInt();
+                if (this.totalTickets <= 0) {
+                    throw new IllegalArgumentException("Invalid input. Please enter a positive integer.");
+                }
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a positive integer.");
+                scanner.next();
+            }
+        }
+
+        // Get the maximum ticket capacity
+        while (true) {
+            try {
+                System.out.println("Enter the maximum ticket capacity for all vendors combined: ");
+                this.maxTicketCapacity = scanner.nextInt();
+                if (this.maxTicketCapacity <= 0) {
+                    throw new IllegalArgumentException("Invalid input. Please enter a positive integer.");
+                }
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a positive integer.");
+                scanner.next();
+            }
+        }
+
+        // Get the ticket release rate
+        while (true) {
+            try {
+                System.out.println("Enter the ticket release rate (tickets per vendor per second): ");
+                this.ticketReleaseRate = scanner.nextInt();
+                if (this.ticketReleaseRate <= 0) {
+                    throw new IllegalArgumentException("Invalid input. Please enter a positive integer.");
+                }
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a positive integer.");
+                scanner.next();
+            }
+        }
+
+        // Get the customer retrieval rate
+        while (true) {
+            try {
+                System.out.println("Enter the customer retrieval rate (tickets per customer per second): ");
+                this.customerRetrievalRate = scanner.nextInt();
+                if (this.customerRetrievalRate <= 0) {
+                    throw new IllegalArgumentException("Invalid input. Please enter a positive integer.");
+                }
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a positive integer.");
+                scanner.next();
+            }
+        }
+
+    }
     @Override
     public String toString() {
         return "Configuration{" +
