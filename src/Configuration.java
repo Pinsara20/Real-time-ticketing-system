@@ -1,3 +1,9 @@
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Configuration {
@@ -85,6 +91,27 @@ public class Configuration {
             }
         }
     }
+
+    public void saveConfigurationToFile(String filePath) {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        try (FileWriter writer = new FileWriter(filePath)) {
+            gson.toJson(this, writer);
+            System.out.println("Configuration saved to " + filePath);
+        } catch (IOException e) {
+            System.out.println("Failed to save configuration: " + e.getMessage());
+        }
+    }
+
+    public static Configuration loadConfigurationFromFile(String filePath) {
+        Gson gson = new Gson();
+        try (FileReader reader = new FileReader(filePath)) {
+            return gson.fromJson(reader, Configuration.class);
+        } catch (IOException e) {
+            System.out.println("Failed to load configuration: " + e.getMessage());
+            return null;
+        }
+    }
+
     @Override
     public String toString() {
         return "Configuration{" +
@@ -94,5 +121,4 @@ public class Configuration {
                 ", maxTicketCapacity=" + maxTicketCapacity +
                 '}';
     }
-
 }

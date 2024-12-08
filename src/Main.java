@@ -3,13 +3,22 @@ import java.util.Scanner;
 public class Main {
     private static Thread[] vendorThreads;
     private static Thread[] customerThreads;
+    private static boolean running = true;
 
     public static void main(String[] args) {
         Configuration configuration = new Configuration();
+
+        // Load configuration from user input
         configuration.loadConfiguration();
+
+        // Save configuration to a file
+        String configFilePath = "configuration.json";
+        configuration.saveConfigurationToFile(configFilePath);
+
+        // Load the configuration for the TicketPool
         TicketPool ticketPool = new TicketPool(configuration.getTotalTickets(), configuration.getMaxTicketCapacity());
 
-        // Create and start vendor thread
+        // Create and start vendor threads
         int vendorCount = configuration.getTicketReleaseRate();
         vendorThreads = new Thread[vendorCount];
         for (int i = 0; i < vendorCount; i++) {
@@ -18,7 +27,7 @@ public class Main {
             vendorThreads[i].start();
         }
 
-        // Create and start customer thread
+        // Create and start customer threads
         int customerCount = configuration.getCustomerRetrievalRate();
         customerThreads = new Thread[customerCount];
         for (int i = 0; i < customerCount; i++) {
@@ -27,29 +36,39 @@ public class Main {
             customerThreads[i].start();
         }
 
-        // Run for a specified duration (e.g., 30 seconds for demonstration)
-        try {
-            Thread.sleep(30000);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
+        // Monitor user input for stopping threads
+        Thread monitorThread = new Thread(() -> {
+            Scanner scanner = new Scanner(System.in);
+            while (running) {
+                if (scanner.nextInt() == 1) {
+                    running = false;
+                }
+            }
+            scanner.close();
+        });
+        monitorThread.start();
+
+        // Wait for the program to stop
+        while (running) {
+            try {
+                Thread.sleep(1000); // Check periodically
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
         }
 
-        // Stop threads gracefully
-        try {
-            vendorThreads.wait();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        try {
-            customerThreads.wait();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        // Stop vendor and customer threads
+        stopThreads(vendorThreads);
+        stopThreads(customerThreads);
 
+        System.out.println("Program stopped.");
+    }
+
+    private static void stopThreads(Thread[] threads) {
+        for (Thread thread : threads) {
+            if (thread != null && thread.isAlive()) {
+                thread.interrupt();
+            }
+        }
     }
 }
-
-
-
-
-
