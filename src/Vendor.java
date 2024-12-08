@@ -2,7 +2,6 @@ public class Vendor implements Runnable {
     private final TicketPool ticketPool;
     private final int ticketReleaseRate;
     private final int vendorId;
-    private boolean running = true;
 
     public Vendor(TicketPool ticketPool, int vendorId, int ticketReleaseRate) {
         this.ticketPool = ticketPool;
@@ -12,20 +11,14 @@ public class Vendor implements Runnable {
 
     @Override
     public void run() {
-        while (running) {
+        while (!Thread.currentThread().isInterrupted()) {
             try {
                 Thread.sleep(1000); // Simulate time delay for adding tickets
-
                 ticketPool.addTicket(vendorId, ticketReleaseRate);
-
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
                 System.out.println("Vendor " + vendorId + " was interrupted.");
             }
         }
-    }
-
-    public void stop() {
-        running = false;
     }
 }
