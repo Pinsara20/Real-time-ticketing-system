@@ -28,6 +28,7 @@ public class Configuration {
         return maxTicketCapacity;
     }
 
+
     public void loadConfiguration() {
         Scanner scanner = new Scanner(System.in);
 
