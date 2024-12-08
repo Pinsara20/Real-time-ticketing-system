@@ -10,9 +10,11 @@ public class TicketPool {
     public TicketPool(int maxTicketCapacity, int initialTotalTickets) {
         this.maxTicketCapacity = maxTicketCapacity;
         this.totalTickets = initialTotalTickets;
+        this.totalTickets = 0;
 
         for (int i = 0; i < initialTotalTickets; i++) {
-            tickets.add("Ticket"+totalTickets+1);
+            tickets.add("Ticket"+ totalTickets+1);
+            totalTickets++;
         }
     }
 
@@ -22,6 +24,7 @@ public class TicketPool {
                 tickets.add("Ticket"+ totalTickets+1);
                 totalTickets++;
             }
+            System.out.println("Vendor " + vendorId + " added " + addTickets + " ticket(s). Total tickets in pool: " + tickets.size());
         }else {
             System.out.println("Vendor " + vendorId + " attempted to add tickets, but the pool is full.");
         }
@@ -32,7 +35,6 @@ public class TicketPool {
         while (ticketPurchesed < removeTickets && !tickets.isEmpty()) {
             tickets.poll();
             ticketPurchesed++;
-            removeTickets--;
         }
         if (ticketPurchesed > 0) {
             System.out.println("Customer " + customerId + " purchased " + ticketPurchesed + " ticket(s). Remaining tickets in pool: " + tickets.size());

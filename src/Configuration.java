@@ -84,7 +84,6 @@ public class Configuration {
                 scanner.next();
             }
         }
-
     }
     @Override
     public String toString() {

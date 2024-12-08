@@ -18,8 +18,6 @@ public class Vendor implements Runnable {
 
                 ticketPool.addTicket(vendorId, ticketReleaseRate);
 
-                System.out.println("Vendor " + vendorId + " added " + ticketReleaseRate +
-                        " ticket(s). Total tickets in pool: " + ticketPool.getTickets());
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
                 System.out.println("Vendor " + vendorId + " was interrupted.");
