@@ -1,3 +1,4 @@
+import java.io.File;
 import java.util.Scanner;
 
 public class Main {
@@ -6,14 +7,45 @@ public class Main {
     private static boolean running = true;
 
     public static void main(String[] args) {
-        Configuration configuration = new Configuration();
-
-        // Load configuration from user input
-        configuration.loadConfiguration();
-
-        // Save configuration to a file
         String configFilePath = "configuration.json";
-        configuration.saveConfigurationToFile(configFilePath);
+        Configuration configuration;
+
+        // Check if configuration file exists
+        File configFile = new File(configFilePath);
+        if (configFile.exists()) {
+            // Ask user if they want to use existing configuration
+            Scanner scanner = new Scanner(System.in);
+            String choice;
+            while (true) {
+                System.out.println("A configuration file was found. Do you want to use it? (yes/no): ");
+                choice = scanner.nextLine().trim().toLowerCase();
+                if ("yes".equals(choice) || "no".equals(choice)) {
+                    break; // Valid input
+                } else {
+                    System.out.println("Invalid input. Please type 'yes' or 'no'.");
+                }
+            }
+
+            if ("yes".equals(choice)) {
+                configuration = Configuration.loadConfigurationFromFile(configFilePath);
+                if (configuration == null) {
+                    System.out.println("Failed to load configuration. Please enter new configuration data.");
+                    configuration = new Configuration();
+                    configuration.loadConfiguration();
+                    configuration.saveConfigurationToFile(configFilePath);
+                }
+            } else {
+                // Load new configuration from user input
+                configuration = new Configuration();
+                configuration.loadConfiguration();
+                configuration.saveConfigurationToFile(configFilePath);
+            }
+        } else {
+            // Load new configuration from user input if file does not exist
+            configuration = new Configuration();
+            configuration.loadConfiguration();
+            configuration.saveConfigurationToFile(configFilePath);
+        }
 
         // Load the configuration for the TicketPool
         TicketPool ticketPool = new TicketPool(configuration.getTotalTickets(), configuration.getMaxTicketCapacity());
@@ -40,11 +72,15 @@ public class Main {
         Thread monitorThread = new Thread(() -> {
             Scanner scanner = new Scanner(System.in);
             while (running) {
-                if (scanner.nextInt() == 1) {
+                System.out.println("Enter '1' to stop the program: ");
+                if (scanner.hasNextInt() && scanner.nextInt() == 1) {
                     running = false;
+                } else {
+                    System.out.println("Invalid input. Please enter '1' to stop the program.");
+                    scanner.nextLine(); // Clear invalid input
                 }
             }
-            scanner.close();
+
         });
         monitorThread.start();
 
