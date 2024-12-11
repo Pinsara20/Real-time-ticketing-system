@@ -35,7 +35,7 @@ public class Configuration {
         // Get the initial tickets count
         while (true) {
             try {
-                System.out.println("Enter the initial total number of tickets in the pool: ");
+                System.out.println("Enter the total number of tickets in the pool: ");
                 String input = scanner.nextLine().trim();
                 this.totalTickets = Integer.parseInt(input);
                 if (this.totalTickets <= 0) {

@@ -27,6 +27,7 @@ public class Main {
             }
 
             if ("yes".equals(choice)) {
+                System.out.println("Previous configuration loaded.");
                 configuration = Configuration.loadConfigurationFromFile(configFilePath);
                 if (configuration == null) {
                     System.out.println("Failed to load configuration. Please enter new configuration data.");
