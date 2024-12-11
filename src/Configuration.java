@@ -36,14 +36,16 @@ public class Configuration {
         while (true) {
             try {
                 System.out.println("Enter the initial total number of tickets in the pool: ");
-                this.totalTickets = scanner.nextInt();
+                String input = scanner.nextLine().trim();
+                this.totalTickets = Integer.parseInt(input);
                 if (this.totalTickets <= 0) {
                     throw new IllegalArgumentException("Invalid input. Please enter a positive integer.");
                 }
                 break;
             } catch (NumberFormatException e) {
-                System.out.println("Invalid input. Please enter a positive integer.");
-                scanner.next();
+                System.out.println("Invalid input. Please enter a valid positive integer.");
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
             }
         }
 
@@ -51,14 +53,16 @@ public class Configuration {
         while (true) {
             try {
                 System.out.println("Enter the maximum ticket capacity for all vendors combined: ");
-                this.maxTicketCapacity = scanner.nextInt();
+                String input = scanner.nextLine().trim();
+                this.maxTicketCapacity = Integer.parseInt(input);
                 if (this.maxTicketCapacity <= 0) {
                     throw new IllegalArgumentException("Invalid input. Please enter a positive integer.");
                 }
                 break;
             } catch (NumberFormatException e) {
-                System.out.println("Invalid input. Please enter a positive integer.");
-                scanner.next();
+                System.out.println("Invalid input. Please enter a valid positive integer.");
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
             }
         }
 
@@ -66,14 +70,16 @@ public class Configuration {
         while (true) {
             try {
                 System.out.println("Enter the ticket release rate (tickets per vendor per second): ");
-                this.ticketReleaseRate = scanner.nextInt();
+                String input = scanner.nextLine().trim();
+                this.ticketReleaseRate = Integer.parseInt(input);
                 if (this.ticketReleaseRate <= 0) {
                     throw new IllegalArgumentException("Invalid input. Please enter a positive integer.");
                 }
                 break;
             } catch (NumberFormatException e) {
-                System.out.println("Invalid input. Please enter a positive integer.");
-                scanner.next();
+                System.out.println("Invalid input. Please enter a valid positive integer.");
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
             }
         }
 
@@ -81,14 +87,16 @@ public class Configuration {
         while (true) {
             try {
                 System.out.println("Enter the customer retrieval rate (tickets per customer per second): ");
-                this.customerRetrievalRate = scanner.nextInt();
+                String input = scanner.nextLine().trim();
+                this.customerRetrievalRate = Integer.parseInt(input);
                 if (this.customerRetrievalRate <= 0) {
                     throw new IllegalArgumentException("Invalid input. Please enter a positive integer.");
                 }
                 break;
             } catch (NumberFormatException e) {
-                System.out.println("Invalid input. Please enter a positive integer.");
-                scanner.next();
+                System.out.println("Invalid input. Please enter a valid positive integer.");
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
             }
         }
     }

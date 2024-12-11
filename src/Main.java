@@ -17,7 +17,7 @@ public class Main {
             Scanner scanner = new Scanner(System.in);
             String choice;
             while (true) {
-                System.out.println("A configuration file was found. Do you want to use it? (yes/no): ");
+                System.out.println("Previous configuration file was found.\nDo you want to use it? \n(yes/no): ");
                 choice = scanner.nextLine().trim().toLowerCase();
                 if ("yes".equals(choice) || "no".equals(choice)) {
                     break; // Valid input
@@ -72,17 +72,15 @@ public class Main {
         Thread monitorThread = new Thread(() -> {
             Scanner scanner = new Scanner(System.in);
             while (running) {
-                System.out.println("Enter '1' to stop the program: ");
                 if (scanner.hasNextInt() && scanner.nextInt() == 1) {
                     running = false;
                 } else {
-                    System.out.println("Invalid input. Please enter '1' to stop the program.");
                     scanner.nextLine(); // Clear invalid input
                 }
             }
-
         });
         monitorThread.start();
+
 
         // Wait for the program to stop
         while (running) {
